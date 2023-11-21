@@ -16,10 +16,11 @@ def is_valid(marks,grade):
 
 # check whether that the entered value is 'y' or 'n'  
 def is_valid_continuation(continue_result):
-    while continue_result not in ["y","q"]:
+    while continue_result not in ["y","q","Y","Q"]:
         print("Invalid input, Please enter y or q !" + "\n")
         continue_result = input("Enter 'y' for yes or 'q' to quit and view results :")
-    return continue_result
+    valid_continue_result = continue_result.lower()
+    return valid_continue_result
 
 # drawing histogram
 def draw_histrogram(total, progress_count, trailer_count, retriever_count, exclude_count):
