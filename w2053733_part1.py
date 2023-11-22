@@ -2,8 +2,7 @@ from graphics import *
 
 # check whether that the entered number is in valid range
 def is_valid(marks,grade):
-    valid_num_list = [0, 20, 40, 60, 80, 100, 120]
-    while marks not in valid_num_list:
+    while marks not in range(0, 121, 20):
         print("Out of range." + "\n")
         if grade=="pass":
             marks = int(input("Please enter your credits at pass :"))
