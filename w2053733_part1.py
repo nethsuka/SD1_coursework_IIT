@@ -162,7 +162,7 @@ def enter_value(value):
                 valid_mark = is_valid(mark,grade = "defer")
             else:
                 mark = int(input("Please enter your credit at fail :"))
-                valid_mark = is_valid(mark,grade = "defer")
+                valid_mark = is_valid(mark,grade = "fail")
         except ValueError:
             print("Integer required"+ "\n")
         else:
@@ -185,7 +185,9 @@ while True:
     progress = get_progression_outcome(valid_pass_mark, valid_defer_mark, valid_fail_mark)
     print(progress + "\n")
 
-    if progress != "Total incorrect.":
+    if progress == "Total incorrect.":
+            continue
+    else:
             total = total + 1
             if progress == "Progress":
                 progress_count = progress_count + 1
