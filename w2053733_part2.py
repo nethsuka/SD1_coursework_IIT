@@ -183,7 +183,6 @@ def enter_value(value):
     
 
 #program starts from here
-total = 0
 progress_count = 0
 trailer_count = 0
 retriever_count = 0
