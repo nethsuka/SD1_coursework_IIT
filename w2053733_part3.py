@@ -14,10 +14,15 @@ def is_valid(marks,grade):
     
 
 # check whether that the entered value is 'y' or 'n'  
-def is_valid_continuation(continue_result):
-    while continue_result not in ["y","q","Y","Q"]:
-        print("Invalid input, Please enter y or q !" + "\n")
-        continue_result = input("Enter 'y' for yes or 'q' to quit and view results :")
+def is_valid_continuation(continue_result, method):
+    if method == 'login':
+        while continue_result not in ["s","t","S","T"]:
+            print("Invalid input, Please enter s or t !" + "\n")
+            continue_result = input("Enter the login method s/t :")
+    else:
+        while continue_result not in ["y","q","Y","Q"]:
+            print("Invalid input, Please enter y or q !" + "\n")
+            continue_result = input("Enter 'y' for yes or 'q' to quit and view results :")
     valid_continue_result = continue_result.lower()
     return valid_continue_result
 
@@ -27,6 +32,13 @@ def draw_histrogram(progress_count, trailer_count, retriever_count, exclude_coun
     total = progress_count + trailer_count + retriever_count + exclude_count
 
     try:
+        # text styles
+        def draw_txt(object_name):
+            object_name.setStyle("bold")
+            object_name.setTextColor(color_rgb(96, 96, 96))
+            object_name.setSize(12)
+            object_name.draw(win)
+
         win = GraphWin("Histogram", 505, 420)
         win.setBackground(color_rgb(224, 224, 224))
 
@@ -39,14 +51,11 @@ def draw_histrogram(progress_count, trailer_count, retriever_count, exclude_coun
         title_word.draw(win)
 
         #============== count and graphics of progress outcome ==============
-
+        
         progress_persentage = (350*progress_count)/total
 
         Rectangle1_word= Text(Point(105,(350-progress_persentage)-10),progress_count) #Progress_word
-        Rectangle1_word.setStyle("bold")
-        Rectangle1_word.setTextColor(color_rgb(96, 96, 96))
-        Rectangle1_word.setSize(12)
-        Rectangle1_word.draw(win)
+        draw_txt(Rectangle1_word)
 
         Rectangle1 = Rectangle(Point(60,350), Point(150,350-progress_persentage))
         Rectangle1.setFill(color_rgb(153, 225, 153))
@@ -57,10 +66,7 @@ def draw_histrogram(progress_count, trailer_count, retriever_count, exclude_coun
         trailer_persentage = (350*trailer_count)/total
 
         Rectangle2_word = Text(Point(205,(350-trailer_persentage)-10),trailer_count) #Trailer_word
-        Rectangle2_word.setStyle("bold")
-        Rectangle2_word.setTextColor(color_rgb(96, 96, 96))
-        Rectangle2_word.setSize(12)
-        Rectangle2_word.draw(win)
+        draw_txt(Rectangle2_word)
 
         Rectangle2 = Rectangle(Point(160,350), Point(250,350-trailer_persentage))
         Rectangle2.setFill(color_rgb(143,188,143))
@@ -71,10 +77,7 @@ def draw_histrogram(progress_count, trailer_count, retriever_count, exclude_coun
         retriever_percentage = (350*retriever_count)/total
 
         Rectangle3_word= Text(Point(305,(350-retriever_percentage)-10),retriever_count) #Retriever_word
-        Rectangle3_word.setStyle("bold")
-        Rectangle3_word.setTextColor(color_rgb(96, 96, 96))
-        Rectangle3_word.setSize(12)
-        Rectangle3_word.draw(win)
+        draw_txt(Rectangle3_word)
 
         Rectangle3 = Rectangle(Point(260,350), Point(350,350-retriever_percentage))
         Rectangle3.setFill(color_rgb(189, 183, 107))
@@ -85,10 +88,7 @@ def draw_histrogram(progress_count, trailer_count, retriever_count, exclude_coun
         exclude_percentage = (350*exclude_count)/total
 
         Rectangle4_word= Text(Point(406,(350-exclude_percentage)-10),exclude_count) #Excluded_word
-        Rectangle4_word.setStyle("bold")
-        Rectangle4_word.setTextColor(color_rgb(96, 96, 96))
-        Rectangle4_word.setSize(12)
-        Rectangle4_word.draw(win)
+        draw_txt(Rectangle4_word)
 
         Rectangle4 = Rectangle(Point(360,350), Point(450,350-exclude_percentage))
         Rectangle4.setFill(color_rgb(216,191,216))
@@ -101,28 +101,13 @@ def draw_histrogram(progress_count, trailer_count, retriever_count, exclude_coun
         aline.setArrow("last")
 
         Progress_word= Text(Point(105,360),"Progress") #Progress_word
-        Progress_word.setStyle("bold")
-        Progress_word.setTextColor(color_rgb(96, 96, 96))
-        Progress_word.setSize(12)
-        Progress_word.draw(win)
-
+        draw_txt(Progress_word)
         Trailer_word = Text(Point(205,360),"Trailer") #Trailer_word
-        Trailer_word.setStyle("bold")
-        Trailer_word.setTextColor(color_rgb(96, 96, 96))
-        Trailer_word.setSize(12)
-        Trailer_word.draw(win)
-
+        draw_txt(Trailer_word)
         Retriever_word= Text(Point(305,360),"Retriever") #Retriever_word
-        Retriever_word.setStyle("bold")
-        Retriever_word.setTextColor(color_rgb(96, 96, 96))
-        Retriever_word.setSize(12)
-        Retriever_word.draw(win)
-
+        draw_txt(Retriever_word)
         Excluded_word= Text(Point(406,360),"Excluded") #Excluded_word
-        Excluded_word.setStyle("bold")
-        Excluded_word.setTextColor(color_rgb(96, 96, 96))
-        Excluded_word.setSize(12)
-        Excluded_word.draw(win)
+        draw_txt(Excluded_word)
 
         #============== Display total ====================================
 
@@ -195,6 +180,12 @@ trailer_count = 0
 retriever_count = 0
 exclude_count = 0
 progressed_datalist = []
+
+print("\n"+"============ Enter 's' to login as a student and 't' to login as a staff member ============"+"\n")
+login_method = input("Enter the login method s/t :")
+valid_login_method = is_valid_continuation(login_method, method='login')
+print()
+
 while True:
     valid_pass_mark = enter_value(value = "pass_mark")
     valid_defer_mark = enter_value(value = "defer_mark")
@@ -204,21 +195,23 @@ while True:
     print(progress + "\n")
 
     if progress == "Total incorrect.":
-            continue
+        continue
+    elif valid_login_method == 's':
+        break
     else:
-            progressed_datalist.append([progress, valid_pass_mark, valid_defer_mark, valid_fail_mark])
-            if progress == "Progress":
-                progress_count = progress_count + 1
-            elif progress == "Progress (module trailer)":
-                trailer_count = trailer_count + 1
-            elif progress == "Module retriever":
-                retriever_count = retriever_count + 1
-            else:
-                exclude_count = exclude_count + 1
+        progressed_datalist.append([progress, valid_pass_mark, valid_defer_mark, valid_fail_mark])
+        if progress == "Progress":
+            progress_count = progress_count + 1
+        elif progress == "Progress (module trailer)":
+            trailer_count = trailer_count + 1
+        elif progress == "Module retriever":
+            retriever_count = retriever_count + 1
+        else:
+            exclude_count = exclude_count + 1
 
     print("Would you like to enter another set of data?")
     continue_result = input("Enter 'y' for yes or 'q' to quit and view results :")
-    valid_continue_result = is_valid_continuation(continue_result)
+    valid_continue_result = is_valid_continuation(continue_result, method='continue')
     print()
 
     if valid_continue_result=="y":
