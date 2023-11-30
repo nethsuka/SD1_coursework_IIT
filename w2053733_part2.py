@@ -1,16 +1,18 @@
 from graphics import *
 
-# check whether that the entered number is in valid range
-def is_valid(marks,grade):
-    while marks not in range(0, 121, 20):
-        print("Out of range." + "\n")
-        if grade=="pass":
-            marks = int(input("Please enter your credits at pass :"))
-        elif grade=="defer":
-            marks = int(input("Please enter your credit at defer :"))
+# check whether that the entered number is in valid range and it is an integer
+def enter_value(display_text):
+    while True:
+        try:
+            valid_mark = int(input(display_text))
+            if valid_mark not in range(0, 121, 20):
+                print("Out of range." + "\n")
+                continue
+        except ValueError:
+            print("Integer required"+ "\n")
         else:
-            marks = int(input("Please enter your credit at fail :"))
-    return marks
+            break
+    return valid_mark
     
 
 # check whether that the entered value is 'y' or 'n'  
@@ -146,25 +148,6 @@ def display_data_list(progressed_datalist):
     for i in progressed_datalist:
             print(f"{i[0]} - {i[1]}, {i[2]}, {i[3]}")
 
-# Geting a valid intiger
-def enter_value(value):
-    while True:
-        try:
-            if value == "pass_mark":
-                mark = int(input("Please enter your credits at pass :"))
-                valid_mark = is_valid(mark,grade = "pass")
-            elif value == "defer_mark":
-                mark = int(input("Please enter your credit at defer :"))
-                valid_mark = is_valid(mark,grade = "defer")
-            else:
-                mark = int(input("Please enter your credit at fail :"))
-                valid_mark = is_valid(mark,grade = "fail")
-        except ValueError:
-            print("Integer required"+ "\n")
-        else:
-            break
-    return valid_mark
-
     
 
 #program starts from here
@@ -180,9 +163,9 @@ valid_login_method = is_valid_continuation(login_method, method='login')
 print()
 
 while True:
-    valid_pass_mark = enter_value(value = "pass_mark")
-    valid_defer_mark = enter_value(value = "defer_mark")
-    valid_fail_mark = enter_value(value = "fail_mark")
+    valid_pass_mark = enter_value("Please enter your credits at pass :")
+    valid_defer_mark = enter_value("Please enter your credit at defer :")
+    valid_fail_mark = enter_value("Please enter your credit at fail :")
 
     progress = get_progression_outcome(valid_pass_mark, valid_defer_mark, valid_fail_mark)
     print(progress + "\n")
